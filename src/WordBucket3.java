@@ -1,31 +1,44 @@
 import java.util.ArrayList;
 
-public class WordBucket2 {
+public class WordBucket3 {
     private ArrayList<Word> list;
+    private int word_count;
 
-    public WordBucket2() {
+    public WordBucket3() {
         list = new ArrayList<>();
+        word_count = 0;
     }
 
     // Worst case: O(N)
-    // Best case: O(1)
+    // Best case : O(1)
     public void add(String word) {
         add(word, 1);
     }
 
     // Worst case: O(N)
-    // Best case: O(1)
-    public void add(String word, int count ) {
+    // Best case : O(1)
+    public void add(String word, int count) {
         int index = findWord(word);
         if ( index == -1 ) {
             list.add( new Word(word, count) );
+            index = list.size()-1;
         } else {
             list.get(index).incCount( count );
         }
+
+        // Move it to its right place
+        while ( index > 0 && list.get(index).getCount() > list.get(index-1).getCount() ) {
+            list.add( index-1, list.get(index) );
+            list.remove( index+1 );
+            index--;
+        }
+
+        // Update word_count
+        word_count += count;
     }
 
     // Worst case: O(N)
-    // Best case: O(N)
+    // Best case : O(N)
     private int findWord(String word) {
         for (int i = 0; i < list.size(); i++) {
             if ( list.get(i).getWord().equals( word ) ) {
@@ -36,44 +49,43 @@ public class WordBucket2 {
     }
 
 
-    // Worst case: O(N)
-    // Best case: O(N)
+    // Worst case: O(1)
+    // Best case : O(1)
     public int size() {
-        int count = 0;
-        for (Word w : list) {
-            count += w.getCount();
-        }
-        return count;
+        return word_count;
     }
 
     // Worst case: O(N)
-    // Best case: O(N)
+    // Best case : O(N)
     public int getCountOf(String word) {
-        for (Word w : list) {
-            if ( w.getWord().equals( word ) ) {
-                return w.getCount();
-            }
+        int index = findWord(word);
+        if ( index == -1 ) {
+            return 0;
+        } else {
+            return list.get(index).getCount();
         }
-        return 0;
     }
 
-    // Worst case: O(N^2)
-    // Best case: O(N)
+    // Worst case: O(1)
+    // Best case : O(1)
     public String getMostFreq() {
-        String most_freq_word = "";
-        int most_freq_num = 0;
-        for (Word w : list) {
-            if ( w.getCount() > most_freq_num) {
-                most_freq_num  = w.getCount();
-                most_freq_word = w.getWord();
-            }
-        }
-        return most_freq_word;
+        return list.get(0).getWord();
     }
 
+    // Worst case: O(N)
+    // Best case : O(1)
     public String[] getNMostFreq(int num) {
-        return new String[] {"not implemented"};
+        if ( num > list.size() || num < 1 ) {
+            num = list.size();
+        }
+        String[] out = new String[num];
+
+        for (int i = 0; i < num; i++) {
+            out[i] = list.get(i).getWord();
+        }
+        return out;
     }
+
 
     // Worst case: O(1)
     // Best case : O(1)

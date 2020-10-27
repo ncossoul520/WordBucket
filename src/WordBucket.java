@@ -54,6 +54,10 @@ public class WordBucket {
         return most_freq_word;
     }
 
+    public String[] getNMostFreq(int num) {
+        return new String[] {"not implemented"};
+    }
+
     // Worst case: O(N^2)
     // Best case: O(N)
     public int getNumUnique() {
@@ -67,5 +71,17 @@ public class WordBucket {
             unique.add(w);
         }
         return unique.size();
+    }
+
+    public void clear() {
+        list = new ArrayList<>();
+    }
+
+    public String toString() {
+        String out = "";
+        for (String w : list) {
+            out += w + " ";
+        }
+        return out;
     }
 }
