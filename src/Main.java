@@ -4,7 +4,8 @@ public class Main {
     public static void main(String[] args) {
 //        WordBucket bucket = new WordBucket();
 //        WordBucket2 bucket = new WordBucket2();
-        WordBucket3 bucket = new WordBucket3();
+//        WordBucket3 bucket = new WordBucket3();
+        WordBucket4 bucket = new WordBucket4();
 
         bucket.add("a", 2);
         bucket.add("c");
